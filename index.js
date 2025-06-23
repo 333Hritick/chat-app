@@ -1,32 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ichat - realtime Node Socket.io chat App</title>
-    <script defer src="/socket.io/socket.io.js"></script>
-    <link rel="stylesheet" href="style.css">
-    <script defer src="client.js"></script>
-</head>
-<body>
-    <nav> 
-         <img class="logo"src="img/logo.jpg" alt="">
-        <h1>Welcome to i chat App</h1>
+// Node server that handles Socket.IO connections
+const express = require('express');
+const app = express();
+const http = require("http").createServer(app);
+const io = require("socket.io")(http);
 
-    </nav>
-      
-    <div class="container">
-         <div class="message right">Welcome to i chat app</div>
+const users = {};
 
-        <div class="message left">Get together with your friend easily</div> 
-    </div>
-    <div class="send">
-        <form action="#"id="send-container">
-            <input type="text" name="messageInp" id="messageInp" placeholder="Message">
-            <button class="btn" type="submit">Send</button>
+// Serve static files from 'public' folder
+app.use(express.static("public"));
 
-        </form>
+io.on("connection", socket => {
+    console.log("A user connected");
 
-    </div>
-</body>
-</html>
+    socket.on("new-user-joined", name => {
+        users[socket.id] = name;
+        console.log("New user joined:", name);
+        socket.broadcast.emit("user-joined", name);
+    });
+
+    socket.on("send", message => {
+        socket.broadcast.emit("receive", {
+            message: message,
+            name: users[socket.id]
+        });
+    });
+
+    socket.on("disconnect", message => {
+            socket.broadcast.emit('left',users[socket.id]);
+            delete users[socket.id];
+            
+        
+    });
+});
+
+http.listen(8000, () => {
+    console.log("Server running at http://localhost:8000");
+});

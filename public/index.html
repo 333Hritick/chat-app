@@ -1,32 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ichat - realtime Node Socket.io chat App</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>iChat – Realtime Chat App</title>
+    
+    <!-- Socket.IO -->
     <script defer src="/socket.io/socket.io.js"></script>
-    <link rel="stylesheet" href="style.css">
+    
+    <!-- External CSS -->
+    <link rel="stylesheet" href="style.css" />
+    
+    <!-- Client-side Script -->
     <script defer src="client.js"></script>
+
+    <!-- Google Fonts (Optional) -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 </head>
 <body>
-    <nav> 
-         <img class="logo"src="img/logo.jpg" alt="">
-        <h1>Welcome to i chat App</h1>
-
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <img class="logo" src="img/logo.jpg" alt="iChat Logo" />
+        <h1>Welcome to iChat</h1>
     </nav>
-      
-    <div class="container">
-         <div class="message right">Welcome to i chat app</div>
 
-        <div class="message left">Get together with your friend easily</div> 
+    <!-- Chat Container -->
+    <div class="container" id="chat-container">
+        <!-- Messages will be appended here dynamically -->
+        <div class="message bot-message">Welcome to iChat!</div>
     </div>
+
+    <!-- Send Message Box -->
     <div class="send">
-        <form action="#"id="send-container">
-            <input type="text" name="messageInp" id="messageInp" placeholder="Message">
+        <form id="send-container">
+            <input 
+                type="text" 
+                id="messageInp" 
+                name="messageInp" 
+                placeholder="Type your message..." 
+                required 
+                autocomplete="off" 
+            />
             <button class="btn" type="submit">Send</button>
-
         </form>
-
     </div>
 </body>
 </html>
